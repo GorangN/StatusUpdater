@@ -20,7 +20,7 @@ It prevents **Microsoft Teams** and other applications from switching you to **â
 
 ## ðŸ“¸ Screenshot
 
-![StatusUpdater Screenshot](docs/screenshot.png)  
+![StatusUpdater Screenshot](StatusUpdater/docs/screenshot.png)  
 *(Example UI with keyboard mode active.)*
 
 ---
