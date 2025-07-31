@@ -1,9 +1,7 @@
-﻿using StatusUpdater.Helpers;
-using static StatusUpdater.Helpers.Interop;
+﻿using static StatusUpdater.Helpers.Interop;
 
 namespace StatusUpdater.Services;
 
-/// Sendet LeftShift per ScanCode (0x2A) – sehr zuverlässig für Idle-Reset
 public class KeyboardStrategy_ScanCodeShift : IKeepAliveStrategy
 {
     public void Pulse()

@@ -6,6 +6,6 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        DataContext = ((App)Application.Current).DashboardVm; // MVVM
+        DataContext = ((App)Application.Current).DashboardVm;
     }
 }

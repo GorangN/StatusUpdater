@@ -1,11 +1,9 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace StatusUpdater.Helpers;
 
 internal static class Interop
 {
-    // ---- Execution state ----
     [Flags]
     internal enum EXECUTION_STATE : uint
     {
@@ -17,7 +15,6 @@ internal static class Interop
     [DllImport("kernel32.dll")]
     internal static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
 
-    // ---- SendInput ----
     internal const uint INPUT_MOUSE = 0;
     internal const uint INPUT_KEYBOARD = 1;
     internal const uint KEYEVENTF_KEYUP = 0x0002;
@@ -44,7 +41,6 @@ internal static class Interop
     [DllImport("user32.dll", SetLastError = true)]
     internal static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
 
-    // ---- Idle Monitor ----
     [StructLayout(LayoutKind.Sequential)]
     internal struct LASTINPUTINFO { public uint cbSize; public uint dwTime; }
 

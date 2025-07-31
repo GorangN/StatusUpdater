@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
-using StatusUpdater.Helpers;
+﻿using StatusUpdater.Helpers;
 using StatusUpdater.Services;
+using System.Collections.ObjectModel;
 
 namespace StatusUpdater.ViewModels;
 
@@ -20,10 +17,10 @@ public class DashboardViewModel : BaseViewModel
     private Method _selectedMethod = Method.Keyboard;
     public Method SelectedMethod { get => _selectedMethod; set { if (Set(ref _selectedMethod, value)) OnMethodChanged(); } }
 
-    private int _intervalSeconds = 60;               // konservativ fürs erste
+    private int _intervalSeconds = 60;
     public int IntervalSeconds { get => _intervalSeconds; set { Set(ref _intervalSeconds, value); Raise(nameof(CanStart)); } }
 
-    private int _keyboardVk = 126;                   // F15
+    private int _keyboardVk = 126;
     public int KeyboardVk { get => _keyboardVk; set => Set(ref _keyboardVk, value); }
 
     private int _mousePixels = 2;
@@ -54,7 +51,7 @@ public class DashboardViewModel : BaseViewModel
 
     public DashboardViewModel()
     {
-        _strategy = new KeyboardStrategy_ScanCodeShift();   // Standard: robust
+        _strategy = new KeyboardStrategy_ScanCodeShift();
         _idleMonitor.PropertyChanged += (_, __) => Raise(nameof(IdleSeconds));
         _idleMonitor.Start();
 
@@ -66,7 +63,7 @@ public class DashboardViewModel : BaseViewModel
     {
         Raise(nameof(IsKeyboard)); Raise(nameof(IsMouse));
         _strategy = SelectedMethod == Method.Keyboard
-            ? new KeyboardStrategy_VirtualKey((ushort)KeyboardVk)   // falls du VK bevorzugst
+            ? new KeyboardStrategy_VirtualKey((ushort)KeyboardVk)
             : new MouseStrategy(MousePixels);
     }
 
@@ -77,15 +74,14 @@ public class DashboardViewModel : BaseViewModel
         StatusText = "Running…";
         if (KeepAwakeEnabled) _keepAwake.Enable();
 
-        // Immer zusätzlich den robusten Shift-ScanCode senden (am sichersten)
         var robustShift = new KeyboardStrategy_ScanCodeShift();
 
         try
         {
             while (!_cts.IsCancellationRequested)
             {
-                robustShift.Pulse();  // garantiert ScanCode
-                _strategy.Pulse();    // zusätzlich gewählte Methode
+                robustShift.Pulse();
+                _strategy.Pulse();
 
                 var jitter = _rnd.Next(-15, 16);
                 var wait = Math.Max(20, IntervalSeconds + jitter);

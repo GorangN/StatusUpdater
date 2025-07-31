@@ -1,5 +1,4 @@
-﻿using StatusUpdater.Helpers;
-using static StatusUpdater.Helpers.Interop;
+﻿using static StatusUpdater.Helpers.Interop;
 
 namespace StatusUpdater.Services;
 public class KeyboardStrategy_VirtualKey : IKeepAliveStrategy

@@ -9,7 +9,6 @@
         ResizeMode="CanMinimize" Cursor="">
 
     <Grid Margin="16">
-        <!-- Nur noch die linke Card, mittig ausgerichtet -->
         <Border Style="{StaticResource CardStyle}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Stretch"

@@ -20,6 +20,7 @@
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
     </Style>
+    
     <!-- Alias für frühere Verwendung -->
     <Style x:Key="HeadingText" BasedOn="{StaticResource Heading1Text}" TargetType="TextBlock"/>
 
