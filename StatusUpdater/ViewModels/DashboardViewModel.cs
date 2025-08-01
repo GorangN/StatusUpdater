@@ -1,6 +1,9 @@
 ﻿using StatusUpdater.Helpers;
 using StatusUpdater.Services;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Data;
 
 namespace StatusUpdater.ViewModels;
 
@@ -15,7 +18,18 @@ public class DashboardViewModel : BaseViewModel
     public ObservableCollection<Method> Methods { get; } = new(new[] { Method.Keyboard, Method.Mouse });
 
     private Method _selectedMethod = Method.Keyboard;
-    public Method SelectedMethod { get => _selectedMethod; set { if (Set(ref _selectedMethod, value)) OnMethodChanged(); } }
+    public Method SelectedMethod { 
+        get => _selectedMethod; 
+        set 
+        {
+            if (Set(ref _selectedMethod, value))
+            {
+                Raise(nameof(IsKeyboard));
+                Raise(nameof(IsMouse));
+                OnMethodChanged();
+            }
+        }
+    }
 
     private int _intervalSeconds = 60;
     public int IntervalSeconds { get => _intervalSeconds; set { Set(ref _intervalSeconds, value); Raise(nameof(CanStart)); } }
@@ -57,6 +71,9 @@ public class DashboardViewModel : BaseViewModel
 
         StartCommand = new RelayCommand(async _ => await StartAsync(), _ => CanStart);
         StopCommand = new RelayCommand(_ => Stop(), _ => IsRunning);
+        Raise(nameof(IsKeyboard));
+        Raise(nameof(IsMouse));
+
     }
 
     private void OnMethodChanged()
@@ -97,6 +114,22 @@ public class DashboardViewModel : BaseViewModel
             IsRunning = false;
             StatusText = "Stopped";
         }
+    }
+
+    public class BoolToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            bool boolValue = value is bool b && b;
+
+            if (parameter?.ToString() == "invert")
+                boolValue = !boolValue;
+
+            return boolValue ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
+            throw new NotImplementedException();
     }
 
     private void Stop() => _cts?.Cancel();

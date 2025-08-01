@@ -18,7 +18,7 @@
         <!-- Einstellungen -->
         <StackPanel Grid.Row="1" Margin="0,8,0,14">
             <TextBlock Text="Methode" Margin="0,0,0,6"/>
-            <ComboBox ItemsSource="{Binding Methods}" SelectedItem="{Binding SelectedMethod}" Height="42"/>
+            <ComboBox ItemsSource="{Binding Methods}" SelectedItem="{Binding SelectedMethod}" Height="42" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
 
             <TextBlock Text="Intervall (Sekunden)" Margin="0,14,0,6"/>
             <TextBox   Style="{StaticResource RoundedTextBoxStyle}" Height="42" Text="{Binding IntervalSeconds}"/>
@@ -41,12 +41,16 @@
 
         <!-- Actions -->
         <StackPanel Grid.Row="2">
-            <Button    Style="{StaticResource PrimaryButtonStyle}" Height="46"
-              Command="{Binding StartCommand}" IsEnabled="{Binding CanStart}"
-              Content="{Binding StartButtonText}"/>
-            <Button    Style="{StaticResource TextLinkStyle}" Margin="0,10,0,0"
-              Command="{Binding StopCommand}" IsEnabled="{Binding IsRunning}"
-              Content="Stop"/>
+            <Button Style="{StaticResource PrimaryButtonStyle}" Height="46"
+            Command="{Binding StartCommand}" IsEnabled="{Binding CanStart}"
+            Content="Start"
+            Visibility="{Binding IsRunning, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=invert}"/>
+
+            <Button Style="{StaticResource DangerButtonStyle}" Height="46" Margin="0,10,0,0"
+            Command="{Binding StopCommand}"
+            Content="Stop"
+            Visibility="{Binding IsRunning, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
             <TextBlock Style="{StaticResource CaptionText}" Margin="0,10,0,0">
                 <Run Text="Status: "/>
                 <Run Text="{Binding StatusText, Mode=OneWay}"/>
