@@ -56,5 +56,5 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: Build Output
+        name: Build Output ${{ matrix.configuration }}
         path: '**\bin\${{ matrix.configuration }}\**\*.exe'
